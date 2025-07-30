@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart, MessageCircle, Calendar, User } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Heart, MessageCircle, Calendar, User, Edit, Trash2 } from 'lucide-react';
 import { Article } from '../types';
 import { articlesService } from '../services/articlesService';
 import { useAuth } from '../contexts/AuthContext';
+import { useAdmin } from '../hooks/useAdmin';
 import { format } from 'date-fns';
 import { mockArticles } from '../data/mockData';
 
@@ -21,9 +22,19 @@ interface ArticlesGridProps {
   articles: Article[];
   isAuthenticated: boolean;
   handleLike: (id: string) => void;
+  isAdmin: boolean;
+  onEditArticle: (id: string) => void;
+  onDeleteArticle: (id: string, title: string) => void;
 }
 
-const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, isAuthenticated, handleLike }) => {
+const ArticlesGrid: React.FC<ArticlesGridProps> = ({ 
+  articles, 
+  isAuthenticated, 
+  handleLike, 
+  isAdmin, 
+  onEditArticle, 
+  onDeleteArticle 
+}) => {
   const validArticles = ensureArticlesArray(articles);
   
   if (validArticles.length === 0) {
@@ -94,6 +105,25 @@ const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, isAuthenticated, 
                 <MessageCircle className="h-4 w-4" />
                 <span>0</span>
               </div>
+              
+              {isAdmin && (
+                <div className="flex items-center space-x-2 ml-4">
+                  <button
+                    onClick={() => onEditArticle(article.id)}
+                    className="p-1 text-gray-600 hover:text-blue-600 transition-colors"
+                    title="Edit article"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => onDeleteArticle(article.id, article.title)}
+                    className="p-1 text-gray-600 hover:text-red-600 transition-colors"
+                    title="Delete article"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </article>
@@ -108,6 +138,8 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showMockDataNotice, setShowMockDataNotice] = useState(false);
   const { isAuthenticated } = useAuth();
+  const { isAdmin } = useAdmin();
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadArticles();
@@ -170,6 +202,24 @@ const Home: React.FC = () => {
       loadArticles();
     } catch (err) {
       console.error('Error toggling like:', err);
+    }
+  };
+
+  const handleEditArticle = (articleId: string) => {
+    navigate(`/edit/${articleId}`);
+  };
+
+  const handleDeleteArticle = async (articleId: string, title: string) => {
+    if (!window.confirm(`Are you sure you want to delete "${title}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await articlesService.deleteArticleAsAdmin(articleId);
+      setArticles(articles.filter(article => article.id !== articleId));
+    } catch (err) {
+      console.error('Error deleting article:', err);
+      alert('Failed to delete article');
     }
   };
 
@@ -254,7 +304,10 @@ const Home: React.FC = () => {
         <ArticlesGrid 
           articles={articles} 
           isAuthenticated={isAuthenticated} 
-          handleLike={handleLike} 
+          handleLike={handleLike}
+          isAdmin={isAdmin}
+          onEditArticle={handleEditArticle}
+          onDeleteArticle={handleDeleteArticle}
         />
       </div>
     </div>

@@ -27,6 +27,15 @@ const mockUser3: User = {
   role: 'user'
 };
 
+const mockAdmin: User = {
+  id: '4',
+  email: 'admin@example.com',
+  username: 'admin',
+  firstName: 'Admin',
+  lastName: 'User',
+  role: 'admin'
+};
+
 export const mockArticles: Article[] = [
   {
     id: '1',
@@ -60,6 +69,17 @@ export const mockArticles: Article[] = [
     isLiked: false,
     createdAt: '2025-01-18T09:15:00Z',
     updatedAt: '2025-01-18T09:15:00Z'
+  },
+  {
+    id: '4',
+    title: 'Platform Updates and Guidelines',
+    content: 'Welcome to our publishing platform! As an admin, I want to ensure everyone has the best experience. Please follow our community guidelines: be respectful, create original content, and engage positively with other authors.',
+    status: 'published',
+    author: mockAdmin,
+    likes: 12,
+    isLiked: false,
+    createdAt: '2025-01-17T14:00:00Z',
+    updatedAt: '2025-01-17T14:00:00Z'
   }
 ];
 

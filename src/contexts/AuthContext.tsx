@@ -29,6 +29,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         const savedToken = authService.getToken();
         const savedUser = authService.getUser();
+        
+        console.log('Auth init - saved token exists:', !!savedToken);
+        console.log('Auth init - saved user exists:', !!savedUser);
 
         if (savedToken && savedUser) {
           setToken(savedToken);
@@ -36,16 +39,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
           
           // Verify token is still valid by making an API call
           try {
+            console.log('Verifying token with API call...');
             const profile = await authService.getProfile();
+            console.log('Token verification successful, profile:', profile);
             setUser(profile);
             authService.setUser(profile);
           } catch (error) {
             // Token is invalid, logout silently
-            console.log('Token expired or invalid, logging out');
+            console.log('Token expired or invalid, logging out:', error);
             authService.logout();
             setToken(null);
             setUser(null);
           }
+        } else {
+          console.log('No saved token or user found');
         }
       } catch (error) {
         console.error('Error during auth initialization:', error);
@@ -58,7 +65,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     timeoutId = window.setTimeout(() => {
       console.log('Auth initialization timeout, setting loading to false');
       setIsLoading(false);
-    }, 5000); // 5 second timeout
+    }, 10000); // 10 second timeout (increased from 5 seconds)
 
     initAuth().then(() => {
       clearTimeout(timeoutId);

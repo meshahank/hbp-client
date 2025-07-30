@@ -4,10 +4,12 @@ import { Plus, Edit, Trash2, Eye, Heart, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { articlesService } from '../services/articlesService';
 import { useAuth } from '../contexts/AuthContext';
+import { useAdmin } from '../hooks/useAdmin';
 import { Article } from '../types';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const { canDeleteAnyArticle } = useAdmin();
   const navigate = useNavigate();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +40,11 @@ const Dashboard: React.FC = () => {
     }
 
     try {
-      await articlesService.deleteArticle(id);
+      if (canDeleteAnyArticle) {
+        await articlesService.deleteArticleAsAdmin(id);
+      } else {
+        await articlesService.deleteArticle(id);
+      }
       setArticles(articles.filter(article => article.id !== id));
     } catch (err) {
       console.error('Error deleting article:', err);

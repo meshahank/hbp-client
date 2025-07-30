@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const isDevelopment = window.location.hostname === 'localhost';
-const baseURL = isDevelopment ? '/api' : 'http://localhost:5000/api';
+const baseURL = isDevelopment ? 'http://localhost:4000/api' : 'http://localhost:4000/api';
 
 const api = axios.create({
   baseURL,
@@ -28,17 +28,8 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Only redirect if user was previously authenticated
-      const wasAuthenticated = localStorage.getItem('token');
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      
-      // Only redirect to login if the user was authenticated and is on a protected route
-      if (wasAuthenticated && window.location.pathname !== '/' && 
-          window.location.pathname !== '/login' && 
-          window.location.pathname !== '/register') {
-        window.location.href = '/login';
-      }
+      // For 401 errors, just log it and let the AuthContext handle the logout
+      console.log('401 error received, letting AuthContext handle logout');
     }
     return Promise.reject(error);
   }

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { PenTool, Home, User, LogOut, Plus, BookOpen } from 'lucide-react';
+import { useAdmin } from '../hooks/useAdmin';
+import { PenTool, Home, User, LogOut, Plus, BookOpen, Shield } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,6 +10,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { user, logout, isAuthenticated } = useAuth();
+  const { isAdmin } = useAdmin();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -54,6 +56,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <BookOpen className="h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
+
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center space-x-1 px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors"
+                    >
+                      <Shield className="h-4 w-4" />
+                      <span>Admin</span>
+                    </Link>
+                  )}
 
                   <div className="flex items-center space-x-3">
                     <Link

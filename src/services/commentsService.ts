@@ -6,8 +6,8 @@ import axios from 'axios';
 export const commentsService = {
   async getCommentsByArticleId(articleId: string): Promise<Comment[]> {
     try {
-      // This is the correct and only endpoint we will use to fetch comments.
-      const response = await api.get(`/comments/article/${articleId}`);
+      // Use the correct endpoint that matches our backend
+      const response = await api.get(`/articles/${articleId}/comments`);
 
       // The API should return an array of comments.
       // We add checks for different possible successful response structures.
@@ -38,8 +38,8 @@ export const commentsService = {
 
   async addComment(articleId: string, content: string): Promise<Comment> {
     try {
-      // The correct endpoint for posting a comment is also /comments/:articleId
-      const response = await api.post(`/comments/${articleId}`, { content });
+      // Use the correct endpoint that matches our backend
+      const response = await api.post(`/articles/${articleId}/comments`, { content });
       return response.data;
     } catch (error) {
       console.error('Error posting comment:', error);

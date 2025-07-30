@@ -5,6 +5,7 @@ import { Article, Comment } from '../types';
 import { articlesService } from '../services/articlesService';
 import { commentsService } from '../services/commentsService';
 import { useAuth } from '../contexts/AuthContext';
+import { useAdmin } from '../hooks/useAdmin';
 import { format } from 'date-fns';
 
 const ArticleDetail: React.FC = () => {
@@ -17,6 +18,7 @@ const ArticleDetail: React.FC = () => {
   const [commentLoading, setCommentLoading] = useState(false);
   const [showMockDataNotice, setShowMockDataNotice] = useState(false);
   const { user, isAuthenticated } = useAuth();
+  const { canDeleteAnyArticle } = useAdmin();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,21 +33,28 @@ const ArticleDetail: React.FC = () => {
 
   const loadArticle = async () => {
     try {
+      console.log('🌟 ArticleDetail loadArticle started for ID:', id);
       setLoading(true);
       setError(null);
       setShowMockDataNotice(false);
+      
       const data = await articlesService.getArticleById(id!);
+      console.log('🎯 ArticleDetail received data:', data);
+      
       if (data && data.id) {
+        console.log('✅ Setting article data:', data.title);
         setArticle(data);
         // Check if this looks like mock data (basic heuristic)
-        if (data.author.id === 'mock-author' || data.title === 'Sample Article') {
+        if (data.author.id === 'mock-author' || data.title === 'Sample Article' || data.title === 'Article Not Available') {
+          console.log('🎭 Showing mock data notice');
           setShowMockDataNotice(true);
         }
       } else {
+        console.log('❌ Article data validation failed:', data);
         setError('Article data is invalid');
       }
     } catch (err: any) {
-      console.error('Error loading article:', err);
+      console.error('💥 ArticleDetail caught error:', err);
       
       // Provide specific error messages based on the error type
       if (err.code === 'ENOTFOUND') {
@@ -110,7 +119,11 @@ const ArticleDetail: React.FC = () => {
     if (!article || !confirm('Are you sure you want to delete this article?')) return;
 
     try {
-      await articlesService.deleteArticle(article.id);
+      if (canDeleteAnyArticle) {
+        await articlesService.deleteArticleAsAdmin(article.id);
+      } else {
+        await articlesService.deleteArticle(article.id);
+      }
       navigate('/');
     } catch (err) {
       console.error('Error deleting article:', err);
@@ -174,8 +187,19 @@ const ArticleDetail: React.FC = () => {
             </div>
             <div className="ml-3">
               <p className="text-sm text-yellow-700">
-                <strong>Demo Mode:</strong> The API server is currently unavailable. You're viewing sample content. 
-                Try refreshing the page to reconnect to the live data.
+                {article?.title === 'Article Not Available' ? (
+                  <>
+                    <strong>Article Not Found:</strong> This article may not exist or the server is unavailable. 
+                    <Link to="/" className="text-blue-600 hover:text-blue-800 underline ml-1">
+                      Return to home page
+                    </Link> to view available articles.
+                  </>
+                ) : (
+                  <>
+                    <strong>Demo Mode:</strong> The API server is currently unavailable. You're viewing sample content. 
+                    Try refreshing the page to reconnect to the live data.
+                  </>
+                )}
               </p>
             </div>
             <div className="ml-auto pl-3">
