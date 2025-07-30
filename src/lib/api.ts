@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const isDevelopment = window.location.hostname === 'localhost';
-const baseURL = isDevelopment ? 'http://localhost:4000/api' : 'http://localhost:4000/api';
+const baseURL = isDevelopment ? 'https://hbp-api.onrender.com/api' : 'https://hbp-api.onrender.com/api';
 
 const api = axios.create({
   baseURL,
