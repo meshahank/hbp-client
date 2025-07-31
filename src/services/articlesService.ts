@@ -3,27 +3,41 @@ import { Article, ArticleFormData } from '../types';
 import { mockArticles } from '../data/mockData';
 
 export const articlesService = {
-  async getAllArticles(): Promise<Article[]> {
+  async getAllArticles(params?: { 
+    search?: string; 
+    category?: string; 
+    author?: string; 
+    sortBy?: string; 
+    order?: 'asc' | 'desc'; 
+    limit?: number; 
+    offset?: number; 
+  }): Promise<{ articles: Article[]; total: number }> {
     try {
-      const response = await api.get('/articles');
+      const response = await api.get('/articles', { params });
       const data = response.data;
       
-      // Ensure we always return an array
-      if (Array.isArray(data)) {
-        return data;
-      } else if (data && Array.isArray(data.articles)) {
-        return data.articles;
-      } else if (data && Array.isArray(data.data)) {
-        return data.data;
+      // Handle new paginated response format
+      if (data && Array.isArray(data.articles)) {
+        return {
+          articles: data.articles,
+          total: data.total || data.articles.length
+        };
+      }
+      // Handle old array format for backward compatibility
+      else if (Array.isArray(data)) {
+        return {
+          articles: data,
+          total: data.length
+        };
       } else {
-        console.warn('API response is not an array:', data);
-        return [];
+        console.warn('API response is not in expected format:', data);
+        return { articles: [], total: 0 };
       }
     } catch (error) {
       console.error('Error in getAllArticles:', error);
       // Return mock data when API fails
       console.log('Falling back to mock articles data');
-      return mockArticles;
+      return { articles: mockArticles, total: mockArticles.length };
     }
   },
 
@@ -113,6 +127,32 @@ export const articlesService = {
 
   async unlikeArticle(id: string): Promise<void> {
     await api.delete(`/articles/${id}/like`);
+  },
+
+  async searchContent(query: string, type: string = 'all'): Promise<{
+    articles: Article[];
+    users: any[];
+    total: number;
+  }> {
+    try {
+      const response = await api.get('/search', {
+        params: { q: query, type }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error in search:', error);
+      return { articles: [], users: [], total: 0 };
+    }
+  },
+
+  async getCategories(): Promise<Array<{ name: string; count: number }>> {
+    try {
+      const response = await api.get('/categories');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
   },
 
   // Admin functions

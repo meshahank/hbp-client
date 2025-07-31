@@ -11,6 +11,9 @@ export interface Article {
   id: string;
   title: string;
   content: string;
+  excerpt?: string;
+  category?: string;
+  tags?: string[];
   status: 'draft' | 'published';
   author: User;
   likes: number;
@@ -49,5 +52,8 @@ export interface RegisterData {
 export interface ArticleFormData {
   title: string;
   content: string;
+  excerpt?: string;
+  category?: string;
+  tags?: string[];
   status: 'draft' | 'published';
 }

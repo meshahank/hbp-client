@@ -1,35 +1,227 @@
+/* Professional Blog Typography */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply scroll-smooth;
+  }
+  
   html {
-    font-family: system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-neutral-50 text-neutral-900 leading-relaxed;
+  }
+
+  /* Blog Typography Hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', 'Crimson Text', Georgia, serif;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold text-neutral-900 mb-6;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-semibold text-neutral-800 mb-5;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold text-neutral-800 mb-4;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-medium text-neutral-700 mb-3;
+  }
+
+  /* Reading Typography */
+  .article-content {
+    font-family: 'Source Serif Pro', 'Crimson Text', Georgia, serif;
+    @apply text-lg leading-8 text-neutral-800;
+  }
+
+  .article-content p {
+    @apply mb-6;
+  }
+
+  .article-content blockquote {
+    @apply border-l-4 border-slate-300 pl-6 my-8 italic text-neutral-700 text-xl leading-relaxed;
+  }
+
+  /* Editorial emphasis */
+  .editorial-accent {
+    @apply text-slate-600 border-slate-200;
+  }
+
+  .editorial-primary {
+    @apply text-slate-900 bg-slate-50;
   }
 }
 
 @layer components {
+  /* Editorial Button System */
   .btn {
-    @apply px-4 py-2 rounded-md font-medium transition-colors;
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium transition-all duration-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed border;
   }
   
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-slate-900 text-white border-slate-900 hover:bg-slate-800 focus:ring-slate-500 shadow-sm hover:shadow-md;
   }
   
   .btn-secondary {
-    @apply bg-gray-200 text-gray-900 hover:bg-gray-300;
+    @apply bg-white text-slate-700 border-slate-300 hover:bg-slate-50 focus:ring-slate-500 shadow-sm hover:shadow-md;
   }
   
-  .btn-danger {
-    @apply bg-red-600 text-white hover:bg-red-700;
+  .btn-ghost {
+    @apply bg-transparent text-slate-600 border-transparent hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-500;
   }
   
+  .btn-editorial {
+    @apply bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100 focus:ring-amber-500;
+  }
+  
+  .btn-lg {
+    @apply px-8 py-4 text-base;
+  }
+  
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+  
+  /* Editorial Card System */
   .card {
-    @apply bg-white rounded-lg shadow-md border border-gray-200;
+    @apply bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden transition-all duration-200 hover:shadow-md;
   }
   
+  .card-elevated {
+    @apply shadow-md hover:shadow-lg border-0;
+  }
+  
+  .card-article {
+    @apply bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  /* Editorial Input System */
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    @apply w-full px-4 py-3 bg-white border border-slate-300 rounded-lg text-sm placeholder-slate-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500;
+  }
+  
+  .input-sm {
+    @apply px-3 py-2 text-xs;
+  }
+  
+  /* Editorial Badge System */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide;
+  }
+  
+  .badge-category {
+    @apply bg-slate-100 text-slate-700;
+  }
+  
+  .badge-featured {
+    @apply bg-amber-100 text-amber-800;
+  }
+  
+  .badge-trending {
+    @apply bg-rose-100 text-rose-800;
+  }
+  
+  .badge-new {
+    @apply bg-emerald-100 text-emerald-800;
+  }
+  
+  /* Editorial Navigation */
+  .nav-link {
+    @apply flex items-center px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all duration-200;
+  }
+  
+  .nav-link.active {
+    @apply text-slate-900 bg-slate-100;
+  }
+
+  /* Editorial Header Styles */
+  .headline {
+    font-family: 'Lora', 'Crimson Text', Georgia, serif;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight;
+  }
+
+  .subheadline {
+    font-family: 'Lora', 'Crimson Text', Georgia, serif;
+    @apply text-xl md:text-2xl text-slate-700 leading-relaxed;
+  }
+
+  .byline {
+    @apply text-sm text-slate-500 uppercase tracking-wide font-medium;
+  }
+
+  .dateline {
+    @apply text-sm text-slate-500;
+  }
+
+  /* Article Meta */
+  .article-meta {
+    @apply flex items-center space-x-4 text-sm text-slate-500 border-b border-slate-200 pb-4 mb-6;
+  }
+  
+  /* Editorial Text Styles */
+  .text-editorial {
+    @apply text-slate-600;
+  }
+
+  .text-headline {
+    font-family: 'Lora', 'Crimson Text', Georgia, serif;
+    @apply text-slate-900;
+  }
+  
+  /* Reading Experience */
+  .reading-width {
+    @apply max-w-2xl mx-auto;
+  }
+  
+  /* Loading Animation */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-slate-200 border-t-slate-600;
+  }
+  
+  /* Editorial Section */
+  .section {
+    @apply py-12 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-hero {
+    @apply py-20 lg:py-24;
+  }
+  
+  /* Editorial Grid System */
+  .grid-articles {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+  
+  .grid-featured {
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-8;
+  }
+
+  /* Magazine-style layouts */
+  .magazine-grid {
+    @apply grid grid-cols-1 md:grid-cols-12 gap-8;
+  }
+
+  .featured-article {
+    @apply md:col-span-8;
+  }
+
+  .sidebar-articles {
+    @apply md:col-span-4 space-y-6;
   }
 }

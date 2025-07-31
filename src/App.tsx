@@ -10,9 +10,16 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ArticleDetail from './pages/ArticleDetail';
 import EditArticle from './pages/EditArticle';
+import CreateArticle from './pages/CreateArticle';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import AdminDashboard from './pages/AdminDashboard';
+import Explore from './pages/Explore';
+import Trending from './pages/Trending';
+import Community from './pages/Community';
+import Library from './pages/Library';
+import Settings from './pages/Settings';
+import Search from './pages/Search';
 
 const AppContent: React.FC = () => {
   const { isLoading } = useAuth();
@@ -21,7 +28,7 @@ const AppContent: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
@@ -34,7 +41,18 @@ const AppContent: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/trending" element={<Trending />} />
         <Route path="/article/:id" element={<ArticleDetail />} />
+        <Route
+          path="/create"
+          element={
+            <ProtectedRoute>
+              <CreateArticle />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/edit"
           element={
@@ -73,6 +91,23 @@ const AppContent: React.FC = () => {
             <AdminRoute>
               <AdminDashboard />
             </AdminRoute>
+          }
+        />
+        <Route path="/community" element={<Community />} />
+        <Route
+          path="/library"
+          element={
+            <ProtectedRoute>
+              <Library />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
