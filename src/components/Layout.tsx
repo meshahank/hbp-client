@@ -17,8 +17,7 @@ import {
   ChevronDown,
   Globe,
   TrendingUp,
-  Users,
-  Library
+  Users
 } from 'lucide-react';
 
 interface LayoutProps {
@@ -44,7 +43,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     { path: '/explore', label: 'Explore', icon: Globe },
     { path: '/trending', label: 'Trending', icon: TrendingUp },
     { path: '/community', label: 'Community', icon: Users },
-    { path: '/library', label: 'Library', icon: Library },
   ];
 
   const isActivePath = (path: string) => location.pathname === path;
@@ -58,26 +56,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                </div>
-                <span className="text-xl font-semibold text-gray-900">enjooy</span>
+                <span className="text-xl font-semibold text-gray-900">InkSquare</span>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
               <Link to="/" className="text-gray-700 hover:text-gray-900 font-medium">Home</Link>
-              <Link to="/blog" className="text-gray-700 hover:text-gray-900 font-medium">Blog</Link>
-              <div className="relative group">
-                <button className="flex items-center text-gray-700 hover:text-gray-900 font-medium">
-                  Service
-                  <ChevronDown className="h-4 w-4 ml-1" />
-                </button>
-              </div>
-              <Link to="/about" className="text-gray-700 hover:text-gray-900 font-medium">About</Link>
-              <Link to="/contact" className="text-gray-700 hover:text-gray-900 font-medium">Contact</Link>
+              <Link to="/explore" className="text-gray-700 hover:text-gray-900 font-medium">Explore</Link>
+              <Link to="/trending" className="text-gray-700 hover:text-gray-900 font-medium">Trending</Link>
+              <Link to="/community" className="text-gray-700 hover:text-gray-900 font-medium">Community</Link>
             </nav>
 
             {/* Right Side Actions */}
