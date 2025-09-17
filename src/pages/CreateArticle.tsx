@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { articlesService } from '../services/articlesService';
 import { ArticleFormData } from '../types';
+import { useAuth } from '../contexts/AuthContext';
 
 interface FormData {
   title: string;
@@ -25,6 +26,7 @@ interface FormData {
 
 const CreateArticle: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
@@ -53,13 +55,21 @@ const CreateArticle: React.FC = () => {
     setSaveStatus('saving');
 
     try {
-      const articleData: ArticleFormData = {
+      if (!user) throw new Error('User not authenticated');
+      const articleData: ArticleFormData & { author: typeof user } = {
         title: data.title,
         content: data.content,
         excerpt: data.excerpt,
         category: data.category,
         tags: data.tags ? data.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0) : undefined,
-        status: data.status
+        status: data.status,
+        author: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          username: user.username,
+        }
       };
 
       const result = await articlesService.createArticle(articleData);

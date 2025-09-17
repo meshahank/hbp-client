@@ -100,7 +100,7 @@ const AdminDashboard: React.FC = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
-            <Shield className="w-8 h-8 mr-3 text-blue-600" />
+            <Shield className="w-8 h-8 mr-3 text-primary-600" />
             Admin Dashboard
           </h1>
           <p className="text-gray-600 mt-2">Manage all articles and content across the platform</p>
@@ -115,14 +115,14 @@ const AdminDashboard: React.FC = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-blue-50 rounded-lg p-6">
+        <div className="bg-primary-50 rounded-lg p-6">
           <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Eye className="w-6 h-6 text-blue-600" />
+            <div className="p-2 bg-primary-100 rounded-lg">
+              <Eye className="w-6 h-6 text-primary-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-blue-600">Total Articles</p>
-              <p className="text-2xl font-bold text-blue-900">{articles.length}</p>
+              <p className="text-sm font-medium text-primary-600">Total Articles</p>
+              <p className="text-2xl font-bold text-primary-900">{articles.length}</p>
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@ const AdminDashboard: React.FC = () => {
                 onClick={() => setFilter(tab.key as any)}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   filter === tab.key
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-blue-500 text-primary-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -240,14 +240,14 @@ const AdminDashboard: React.FC = () => {
                   <div className="flex items-center space-x-2 ml-4">
                     <Link
                       to={`/article/${article.id}`}
-                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="p-2 text-gray-600 hover:text-primary-600 transition-colors"
                       title="View article"
                     >
                       <Eye className="w-4 h-4" />
                     </Link>
                     <button
                       onClick={() => handleEditArticle(article.id)}
-                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="p-2 text-gray-600 hover:text-primary-600 transition-colors"
                       title="Edit article"
                     >
                       <Edit className="w-4 h-4" />

@@ -3,20 +3,35 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../contexts/AuthContext';
 import { authService } from '../services/authService';
-import { LoginData } from '../types';
+// import { LoginData } from '../types';
+
+type LoginFormData = {
+  identifier: string;
+  password: string;
+};
 
 const Login: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: LoginData) => {
+  const onSubmit = async (data: LoginFormData) => {
     try {
       setLoading(true);
       setError(null);
-      const response = await authService.login(data);
+      // Determine if identifier is email or username
+      const isEmail = /^\S+@\S+\.\S+$/.test(data.identifier);
+      const payload: any = {
+        password: data.password,
+      };
+      if (isEmail) {
+        payload.email = data.identifier;
+      } else {
+        payload.username = data.identifier;
+      }
+      const response = await authService.login(payload);
       login(response.token, response.user);
       navigate('/');
     } catch (err: any) {
@@ -37,7 +52,7 @@ const Login: React.FC = () => {
             Or{' '}
             <Link
               to="/register"
-              className="font-medium text-blue-600 hover:text-blue-500"
+              className="font-medium text-primary-600 hover:text-primary-500"
             >
               create a new account
             </Link>
@@ -52,24 +67,21 @@ const Login: React.FC = () => {
           )}
           
           <div className="space-y-4">
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+              <label htmlFor="identifier" className="block text-sm font-medium text-gray-700">
+                Username or Email
               </label>
               <input
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: /^\S+@\S+$/i,
-                    message: 'Invalid email address',
-                  },
+                {...register('identifier', {
+                  required: 'Username or email is required',
                 })}
-                type="email"
+                type="text"
                 className="input mt-1"
-                placeholder="Enter your email"
+                placeholder="Enter your username or email"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+              {errors.identifier && (
+                <p className="mt-1 text-sm text-red-600">{errors.identifier.message}</p>
               )}
             </div>
 
@@ -99,7 +111,7 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>

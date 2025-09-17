@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>College Housing Poster</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Montserrat&display=swap');
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .poster {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      width: 400px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+      padding: 25px;
+      text-align: center;
+      position: relative;
+    }
+    .poster h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 5px;
+      letter-spacing: 2px;
+    }
+    .poster .house-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      color: #ffd700;
+      text-shadow: 0 0 8px #ffd700;
+    }
+    .poster p {
+      font-size: 1.1rem;
+      margin: 10px 0 25px;
+      font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+    .image-container {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .image-container img {
+      width: 100%;
+      display: block;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+    }
+    .image-container img:hover {
+      transform: scale(1.05);
+    }
+    .footer {
+      margin-top: 20px;
+      font-style: italic;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+    <h1>College Housing Event</h1>
+    <div class="house-name">Greenwood House</div>
+    <p>Celebrating teamwork, spirit & creativity with <br> hundreds of participants!</p>
+    <div class="image-container">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Happy students with trophy" />
+    </div>
+    <div class="footer">Together we shine brighter! 🏆</div>
+  </div>
+</body>
+</html>

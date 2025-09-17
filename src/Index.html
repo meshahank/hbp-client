@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Exam Results</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 400px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #4b6cb7;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        
+        .sort-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .sort-btn {
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .sort-btn:hover {
+            background: #3a5a9e;
+        }
+        
+        .sort-btn.active {
+            background: #2575fc;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .student-name {
+            font-weight: 600;
+            color: #4b6cb7;
+        }
+        
+        .score {
+            font-weight: 500;
+        }
+        
+        .grade {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            min-width: 50px;
+        }
+        
+        .grade.A { background-color: #28a745; }
+        .grade.B { background-color: #17a2b8; }
+        .grade.C { background-color: #ffc107; color: #333; }
+        .grade.D { background-color: #fd7e14; }
+        .grade.F { background-color: #dc3545; }
+        
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 15px;
+            min-width: 150px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4b6cb7;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .sort-controls {
+                justify-content: center;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .grade {
+                padding: 3px 8px;
+                font-size: 0.8rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Class 10 Exam Results</h1>
+            <div class="subtitle">Academic Year 2022-2023</div>
+        </header>
+        
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search by name or roll number...">
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="sort-controls">
+                <button class="sort-btn active" data-sort="name">Name</button>
+                <button class="sort-btn" data-sort="roll">Roll No.</button>
+                <button class="sort-btn" data-sort="score">Score</button>
+                <button class="sort-btn" data-sort="grade">Grade</button>
+            </div>
+        </div>
+        
+        <table id="resultsTable">
+            <thead>
+                <tr>
+                    <th>Roll No.</th>
+                    <th>Student Name</th>
+                    <th>Math</th>
+                    <th>Science</th>
+                    <th>English</th>
+                    <th>Total</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Table rows will be generated by JavaScript -->
+            </tbody>
+        </table>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalStudents">0</div>
+                <div class="stat-label">Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgScore">0%</div>
+                <div class="stat-label">Average Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="highestScore">0%</div>
+                <div class="stat-label">Highest Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="passRate">0%</div>
+                <div class="stat-label">Pass Rate</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample student data (replace with your actual data)
+        const students = [
+            { roll: 101, name: "Alex Johnson", math: 92, science: 88, english: 85 },
+            { roll: 102, name: "Maria Garcia", math: 78, science: 82, english: 90 },
+            { roll: 103, name: "James Wilson", math: 85, science: 76, english: 80 },
+            { roll: 104, name: "Sarah Davis", math: 95, science: 92, english: 94 },
+            { roll: 105, name: "Robert Brown", math: 65, science: 70, english: 72 },
+            { roll: 106, name: "Jennifer Miller", math: 88, science: 85, english: 82 },
+            { roll: 107, name: "David Taylor", math: 72, science: 68, english: 75 },
+            { roll: 108, name: "Lisa Anderson", math: 90, science: 94, english: 88 },
+            { roll: 109, name: "Michael Thomas", math: 82, science: 79, english: 85 },
+            { roll: 110, name: "Emily Jackson", math: 76, science: 82, english: 78 },
+            { roll: 111, name: "William White", math: 68, science: 72, english: 70 },
+            { roll: 112, name: "Jessica Harris", math: 92, science: 88, english: 90 },
+            { roll: 113, name: "Christopher Martin", math: 85, science: 80, english: 82 },
+            { roll: 114, name: "Amanda Thompson", math: 78, science: 75, english: 80 },
+            { roll: 115, name: "Daniel Garcia", math: 88, science: 92, english: 86 }
+        ];
+
+        // Calculate grades and percentages
+        students.forEach(student => {
+            student.total = student.math + student.science + student.english;
+            student.percentage = Math.round(student.total / 3);
+            
+            if (student.percentage >= 90) student.grade = 'A';
+            else if (student.percentage >= 80) student.grade = 'B';
+            else if (student.percentage >= 70) student.grade = 'C';
+            else if (student.percentage >= 60) student.grade = 'D';
+            else student.grade = 'F';
+        });
+
+        // DOM elements
+        const tableBody = document.getElementById('tableBody');
+        const searchInput = document.getElementById('searchInput');
+        const sortButtons = document.querySelectorAll('.sort-btn');
+        
+        // Statistics elements
+        const totalStudentsEl = document.getElementById('totalStudents');
+        const avgScoreEl = document.getElementById('avgScore');
+        const highestScoreEl = document.getElementById('highestScore');
+        const passRateEl = document.getElementById('passRate');
+
+        // Current sort state
+        let currentSort = 'name';
+        let sortDirection = 'asc';
+
+        // Initialize table
+        function renderTable(data) {
+            tableBody.innerHTML = '';
+            
+            data.forEach(student => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student.roll}</td>
+                    <td class="student-name">${student.name}</td>
+                    <td class="score">${student.math}</td>
+                    <td class="score">${student.science}</td>
+                    <td class="score">${student.english}</td>
+                    <td class="score">${student.total}</td>
+                    <td class="score">${student.percentage}%</td>
+                    <td><span class="grade ${student.grade}">${student.grade}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            updateStatistics(data);
+        }
+
+        // Update statistics
+        function updateStatistics(data) {
+            const totalStudents = data.length;
+            const totalScores = data.reduce((sum, student) => sum + student.percentage, 0);
+            const avgScore = totalStudents > 0 ? Math.round(totalScores / totalStudents) : 0;
+            const highestScore = totalStudents > 0 ? Math.max(...data.map(s => s.percentage)) : 0;
+            const passCount = data.filter(s => s.percentage >= 60).length;
+            const passRate = totalStudents > 0 ? Math.round((passCount / totalStudents) * 100) : 0;
+            
+            totalStudentsEl.textContent = totalStudents;
+            avgScoreEl.textContent = avgScore + '%';
+            highestScoreEl.textContent = highestScore + '%';
+            passRateEl.textContent = passRate + '%';
+        }
+
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filtered = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) || 
+                student.roll.toString().includes(searchTerm)
+            );
+            renderTable(filtered);
+        });
+
+        // Sort functionality
+        sortButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                sortButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const sortBy = button.dataset.sort;
+                
+                // Toggle sort direction if same column
+                if (sortBy === currentSort) {
+                    sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort = sortBy;
+                    sortDirection = 'asc';
+                }
+                
+                // Sort data
+                const sorted = [...students].sort((a, b) => {
+                    let valueA, valueB;
+                    
+                    switch(sortBy) {
+                        case 'name':
+                            valueA = a.name.toLowerCase();
+                            valueB = b.name.toLowerCase();
+                            break;
+                        case 'roll':
+                            valueA = a.roll;
+                            valueB = b.roll;
+                            break;
+                        case 'score':
+                            valueA = a.percentage;
+                            valueB = b.percentage;
+                            break;
+                        case 'grade':
+                            const gradeOrder = { 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'F': 5 };
+                            valueA = gradeOrder[a.grade];
+                            valueB = gradeOrder[b.grade];
+                            break;
+                    }
+                    
+                    if (valueA < valueB) return sortDirection === 'asc' ? -1 : 1;
+                    if (valueA > valueB) return sortDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+                
+                renderTable(sorted);
+            });
+        });
+
+        // Initial render
+        renderTable(students);
+    </script>
+</body>
+</html>

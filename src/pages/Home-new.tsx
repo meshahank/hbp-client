@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Calendar, User } from 'lucide-react';
 import { Article } from '../types';
 import { articlesService } from '../services/articlesService';
@@ -25,7 +25,8 @@ interface ArticlesGridProps {
 
 const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, isAuthenticated, handleLike }) => {
   const validArticles = ensureArticlesArray(articles);
-  
+  const navigate = useNavigate();
+
   if (validArticles.length === 0) {
     return (
       <div className="text-center py-12">
@@ -42,23 +43,24 @@ const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, isAuthenticated, 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {validArticles.map((article) => (
-        <article key={article.id} className="card p-6 hover:shadow-lg transition-shadow">
+        <article
+          key={article.id}
+          className="card p-6 hover:shadow-lg transition-shadow cursor-pointer group"
+          onClick={() => navigate(`/article/${article.id}`)}
+          tabIndex={0}
+          onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`/article/${article.id}`); }}
+          aria-label={`Open article: ${article.title}`}
+        >
           <div className="mb-4">
-            <Link 
-              to={`/article/${article.id}`}
-              className="text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
-            >
+            <span className="text-xl font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
               {article.title}
-            </Link>
+            </span>
           </div>
-          
           <div className="text-gray-600 mb-4 line-clamp-3">
-            {article.content.length > 150 
-              ? `${article.content.substring(0, 150)}...` 
-              : article.content
-            }
+            {article.content.length > 150
+              ? `${article.content.substring(0, 150)}...`
+              : article.content}
           </div>
-          
           <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
             <div className="flex items-center space-x-2">
               <User className="h-4 w-4" />
@@ -69,22 +71,13 @@ const ArticlesGrid: React.FC<ArticlesGridProps> = ({ articles, isAuthenticated, 
               <span>{format(new Date(article.createdAt), 'MMM d, yyyy')}</span>
             </div>
           </div>
-          
           <div className="flex items-center justify-between">
-            <Link 
-              to={`/article/${article.id}`}
-              className="text-blue-600 hover:text-blue-700 font-medium"
-            >
-              Read more
-            </Link>
-            
+            <span className="text-primary-600 group-hover:text-primary-700 font-medium">Read more</span>
             <div className="flex items-center space-x-4">
               {isAuthenticated && (
                 <button
-                  onClick={() => handleLike(article.id)}
-                  className={`flex items-center space-x-1 ${
-                    article.isLiked ? 'text-red-600' : 'text-gray-500 hover:text-red-600'
-                  } transition-colors`}
+                  onClick={e => { e.stopPropagation(); handleLike(article.id); }}
+                  className={`flex items-center space-x-1 ${article.isLiked ? 'text-red-600' : 'text-gray-500 hover:text-red-600'} transition-colors`}
                 >
                   <Heart className={`h-4 w-4 ${article.isLiked ? 'fill-current' : ''}`} />
                   <span>{article.likes}</span>

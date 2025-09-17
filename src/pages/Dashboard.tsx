@@ -22,10 +22,10 @@ const Dashboard: React.FC = () => {
   const loadUserArticles = async () => {
     try {
       setLoading(true);
-      const allArticles = await articlesService.getAllArticles();
-      // Filter articles by current user
-      const userArticles = allArticles.filter(article => article.author.id === user?.id);
-      setArticles(userArticles);
+  const allArticlesResult = await articlesService.getAllArticles();
+  // Filter articles by current user
+  const userArticles = allArticlesResult.articles.filter(article => article.author.id === user?.id);
+  setArticles(userArticles);
     } catch (err) {
       setError('Failed to load your articles');
       console.error('Error loading user articles:', err);
@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
         </div>
         <Link
           to="/edit"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+          className="bg-primary-600 text-white px-6 py-3 rounded-lg hover:bg-primary-700 transition-colors flex items-center"
         >
           <Plus className="w-5 h-5 mr-2" />
           New Article
@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Total Articles</h3>
-          <p className="text-3xl font-bold text-blue-600">{articles.length}</p>
+          <p className="text-3xl font-bold text-primary-600">{articles.length}</p>
         </div>
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-2">Published</h3>
@@ -136,7 +136,7 @@ const Dashboard: React.FC = () => {
             <p className="text-gray-600 mb-4">Start writing your first article to see it here.</p>
             <Link
               to="/edit"
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors inline-flex items-center"
+              className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors inline-flex items-center"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create Article
@@ -175,14 +175,14 @@ const Dashboard: React.FC = () => {
                   <div className="flex items-center space-x-2 ml-4">
                     <Link
                       to={`/article/${article.id}`}
-                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="p-2 text-gray-600 hover:text-primary-600 transition-colors"
                       title="View article"
                     >
                       <Eye className="w-4 h-4" />
                     </Link>
                     <button
                       onClick={() => handleEditArticle(article.id)}
-                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                      className="p-2 text-gray-600 hover:text-primary-600 transition-colors"
                       title="Edit article"
                     >
                       <Edit className="w-4 h-4" />

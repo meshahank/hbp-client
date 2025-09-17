@@ -181,8 +181,8 @@ const CommunityPage: React.FC = () => {
         {/* Community Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
           <div className="card p-6 text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <Users className="h-6 w-6 text-blue-600" />
+            <div className="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <Users className="h-6 w-6 text-primary-600" />
             </div>
             <div className="text-2xl font-bold text-gray-900">{stats.totalUsers.toLocaleString()}</div>
             <div className="text-sm text-gray-600">Total Members</div>

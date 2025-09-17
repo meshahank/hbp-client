@@ -169,7 +169,7 @@ const Search: React.FC = () => {
                     onClick={() => setSearchType(option.value)}
                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       searchType === option.value
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-primary-600 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                   >
@@ -182,7 +182,7 @@ const Search: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className="px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors disabled:opacity-50"
             >
               {loading ? 'Searching...' : 'Search'}
             </button>
@@ -220,7 +220,7 @@ const Search: React.FC = () => {
                       {results.articles.map((article) => (
                         <div key={article.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
                           <Link to={`/articles/${article.id}`} className="block">
-                            <h4 className="text-xl font-semibold text-gray-900 hover:text-blue-600 mb-2">
+                            <h4 className="text-xl font-semibold text-gray-900 hover:text-primary-600 mb-2">
                               {article.title}
                             </h4>
                             {article.excerpt && (
@@ -244,7 +244,7 @@ const Search: React.FC = () => {
                                 </span>
                               </div>
                               {article.category && (
-                                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+                                <span className="bg-primary-100 text-primary-800 px-2 py-1 rounded-full text-xs">
                                   {article.category}
                                 </span>
                               )}
@@ -267,7 +267,7 @@ const Search: React.FC = () => {
                       {results.users.map((user) => (
                         <div key={user.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
                           <div className="flex items-center space-x-3">
-                            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                            <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center">
                               <User className="h-6 w-6 text-white" />
                             </div>
                             <div>
@@ -324,9 +324,9 @@ const Search: React.FC = () => {
             )}
 
             {/* Search Tips */}
-            <div className="bg-blue-50 rounded-lg border border-blue-200 p-6">
-              <h3 className="text-lg font-semibold text-blue-900 mb-3">Search Tips</h3>
-              <ul className="space-y-2 text-sm text-blue-800">
+            <div className="bg-primary-50 rounded-lg border border-blue-200 p-6">
+              <h3 className="text-lg font-semibold text-primary-900 mb-3">Search Tips</h3>
+              <ul className="space-y-2 text-sm text-primary-800">
                 <li>• Use specific keywords for better results</li>
                 <li>• Search by author name to find their articles</li>
                 <li>• Browse categories to discover new content</li>
