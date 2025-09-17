@@ -114,7 +114,7 @@ const EditArticle: React.FC = () => {
               id="title"
               type="text"
               {...register('title', { required: 'Title is required' })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="Enter article title..."
             />
             {errors.title && (
@@ -129,7 +129,7 @@ const EditArticle: React.FC = () => {
             <select
               id="status"
               {...register('status', { required: 'Status is required' })}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="draft">Draft</option>
               <option value="published">Published</option>
@@ -147,7 +147,7 @@ const EditArticle: React.FC = () => {
               id="content"
               {...register('content', { required: 'Content is required' })}
               rows={12}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               placeholder="Write your article content here..."
             />
             {errors.content && (

@@ -145,7 +145,7 @@ const CommunityPage: React.FC = () => {
       case 1: return { icon: Crown, color: 'text-yellow-500', bg: 'bg-yellow-50' };
       case 2: return { icon: Award, color: 'text-gray-500', bg: 'bg-gray-50' };
       case 3: return { icon: Trophy, color: 'text-orange-500', bg: 'bg-orange-50' };
-      default: return { icon: Star, color: 'text-indigo-500', bg: 'bg-indigo-50' };
+      default: return { icon: Star, color: 'text-primary-500', bg: 'bg-primary-50' };
     }
   };
 
@@ -153,7 +153,7 @@ const CommunityPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading community...</p>
         </div>
       </div>
@@ -163,7 +163,7 @@ const CommunityPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+      <div className="bg-gradient-to-r from-purple-600 to-primary-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
             <div className="flex items-center justify-center mb-4">
@@ -267,7 +267,7 @@ const CommunityPage: React.FC = () => {
             <div className="card p-6">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
-                  <TrendingUp className="h-6 w-6 text-indigo-600 mr-2" />
+                  <TrendingUp className="h-6 w-6 text-primary-600 mr-2" />
                   <h2 className="text-xl font-bold text-gray-900">Recent Activity</h2>
                 </div>
                 <Link to="/explore" className="btn btn-ghost btn-sm">
@@ -278,7 +278,7 @@ const CommunityPage: React.FC = () => {
               <div className="space-y-6">
                 {recentArticles.map((article) => (
                   <div key={article.id} className="flex items-start space-x-4 p-4 bg-gray-50 rounded-xl">
-                    <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                    <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
                       <BookOpen className="h-5 w-5 text-white" />
                     </div>
                     
@@ -292,7 +292,7 @@ const CommunityPage: React.FC = () => {
                       
                       <Link 
                         to={`/article/${article.id}`}
-                        className="font-medium text-indigo-600 hover:text-indigo-700 line-clamp-1"
+                        className="font-medium text-primary-600 hover:text-primary-700 line-clamp-1"
                       >
                         {article.title}
                       </Link>
@@ -325,8 +325,8 @@ const CommunityPage: React.FC = () => {
 
         {/* Join Community CTA */}
         {!isAuthenticated && (
-          <div className="mt-12 card p-8 text-center bg-gradient-to-r from-purple-50 to-indigo-50 border-purple-200">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="mt-12 card p-8 text-center bg-gradient-to-r from-purple-50 to-primary-50 border-purple-200">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <UserPlus className="h-8 w-8 text-white" />
             </div>
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Join Our Community</h3>

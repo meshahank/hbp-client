@@ -126,7 +126,7 @@ const LibraryPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <BookOpen className="h-10 w-10 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Your Library</h2>
@@ -146,7 +146,7 @@ const LibraryPage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your library...</p>
         </div>
       </div>
@@ -161,7 +161,7 @@ const LibraryPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center">
-                <BookOpen className="h-8 w-8 text-indigo-600 mr-3" />
+                <BookOpen className="h-8 w-8 text-primary-600 mr-3" />
                 <div>
                   <h1 className="text-3xl font-bold text-gray-900">My Library</h1>
                   <p className="text-gray-600 mt-1">
@@ -193,7 +193,7 @@ const LibraryPage: React.FC = () => {
                       onClick={() => setActiveFilter(option.key as FilterType)}
                       className={`w-full flex items-center justify-between p-3 rounded-lg text-left transition-colors duration-200 ${
                         activeFilter === option.key
-                          ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                          ? 'bg-primary-50 text-primary-700 border border-primary-200'
                           : 'hover:bg-gray-50 text-gray-700'
                       }`}
                     >
@@ -202,7 +202,7 @@ const LibraryPage: React.FC = () => {
                         <span className="font-medium">{option.label}</span>
                       </div>
                       <span className={`text-sm px-2 py-1 rounded-full ${
-                        activeFilter === option.key ? 'bg-indigo-100' : 'bg-gray-100'
+                        activeFilter === option.key ? 'bg-primary-100' : 'bg-gray-100'
                       }`}>
                         {option.count}
                       </span>
@@ -254,13 +254,13 @@ const LibraryPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'}`}
+                  className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-600'}`}
                 >
                   <Grid3X3 className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'}`}
+                  className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-gray-600'}`}
                 >
                   <List className="h-5 w-5" />
                 </button>
@@ -297,7 +297,7 @@ const LibraryPage: React.FC = () => {
                               Saved {format(new Date(article.savedAt), 'MMM d')}
                             </span>
                             {article.isBookmarked && (
-                              <Bookmark className="h-4 w-4 text-indigo-600 fill-current" />
+                              <Bookmark className="h-4 w-4 text-primary-600 fill-current" />
                             )}
                           </div>
                           <button className="p-1 text-gray-400 hover:text-gray-600">
@@ -306,7 +306,7 @@ const LibraryPage: React.FC = () => {
                         </div>
                         
                         <Link to={`/article/${article.id}`}>
-                          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 hover:text-indigo-600 transition-colors duration-200">
+                          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 hover:text-primary-600 transition-colors duration-200">
                             {article.title}
                           </h3>
                         </Link>
@@ -332,12 +332,12 @@ const LibraryPage: React.FC = () => {
                         <div className="flex-1">
                           <div className="flex items-center space-x-3 mb-2">
                             <Link to={`/article/${article.id}`}>
-                              <h3 className="font-bold text-gray-900 hover:text-indigo-600 transition-colors duration-200">
+                              <h3 className="font-bold text-gray-900 hover:text-primary-600 transition-colors duration-200">
                                 {article.title}
                               </h3>
                             </Link>
                             {article.isBookmarked && (
-                              <Bookmark className="h-4 w-4 text-indigo-600 fill-current" />
+                              <Bookmark className="h-4 w-4 text-primary-600 fill-current" />
                             )}
                           </div>
                           

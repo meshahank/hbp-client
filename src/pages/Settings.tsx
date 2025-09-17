@@ -127,7 +127,7 @@ const SettingsPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <Settings className="h-10 w-10 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Access Settings</h2>
@@ -149,7 +149,7 @@ const SettingsPage: React.FC = () => {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center">
-            <Settings className="h-8 w-8 text-indigo-600 mr-3" />
+            <Settings className="h-8 w-8 text-primary-600 mr-3" />
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
               <p className="text-gray-600 mt-1">
@@ -174,7 +174,7 @@ const SettingsPage: React.FC = () => {
                       onClick={() => setActiveTab(tab.id)}
                       className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
                         activeTab === tab.id
-                          ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                          ? 'bg-primary-50 text-primary-700 border border-primary-200'
                           : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
@@ -282,7 +282,7 @@ const SettingsPage: React.FC = () => {
                               onChange={(e) => setNotifications(prev => ({ ...prev, emailNotifications: e.target.checked }))}
                               className="sr-only peer"
                             />
-                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                           </label>
                         </div>
                         
@@ -301,7 +301,7 @@ const SettingsPage: React.FC = () => {
                               onChange={(e) => setNotifications(prev => ({ ...prev, pushNotifications: e.target.checked }))}
                               className="sr-only peer"
                             />
-                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                           </label>
                         </div>
                       </div>
@@ -328,7 +328,7 @@ const SettingsPage: React.FC = () => {
                                 onChange={(e) => setNotifications(prev => ({ ...prev, [item.key]: e.target.checked }))}
                                 className="sr-only peer"
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                             </label>
                           </div>
                         ))}
@@ -352,7 +352,7 @@ const SettingsPage: React.FC = () => {
                               type="radio"
                               checked={privacy.profileVisibility === 'public'}
                               onChange={() => setPrivacy(prev => ({ ...prev, profileVisibility: 'public' }))}
-                              className="form-radio h-4 w-4 text-indigo-600"
+                              className="form-radio h-4 w-4 text-primary-600"
                             />
                             <span className="ml-3">
                               <span className="font-medium text-gray-900">Public</span>
@@ -366,7 +366,7 @@ const SettingsPage: React.FC = () => {
                               type="radio"
                               checked={privacy.profileVisibility === 'private'}
                               onChange={() => setPrivacy(prev => ({ ...prev, profileVisibility: 'private' }))}
-                              className="form-radio h-4 w-4 text-indigo-600"
+                              className="form-radio h-4 w-4 text-primary-600"
                             />
                             <span className="ml-3">
                               <span className="font-medium text-gray-900">Private</span>
@@ -397,7 +397,7 @@ const SettingsPage: React.FC = () => {
                                 onChange={(e) => setPrivacy(prev => ({ ...prev, [item.key]: e.target.checked }))}
                                 className="sr-only peer"
                               />
-                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                             </label>
                           </div>
                         ))}
@@ -427,7 +427,7 @@ const SettingsPage: React.FC = () => {
                               onClick={() => setAppearance(prev => ({ ...prev, theme: theme.value as Theme }))}
                               className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-all duration-200 ${
                                 appearance.theme === theme.value
-                                  ? 'border-indigo-500 bg-indigo-50'
+                                  ? 'border-primary-500 bg-primary-50'
                                   : 'border-gray-200 hover:border-gray-300'
                               }`}
                             >
@@ -481,7 +481,7 @@ const SettingsPage: React.FC = () => {
                               onChange={(e) => setAppearance(prev => ({ ...prev, compactMode: e.target.checked }))}
                               className="sr-only peer"
                             />
-                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
                           </label>
                         </div>
                       </div>

@@ -58,7 +58,7 @@ const HeroSection: React.FC = () => {
             type="text"
             name="search"
             placeholder="Search articles..."
-            className="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
           <button type="submit" className="px-6 py-3 bg-primary-600 text-white rounded-r-lg hover:bg-primary-700 transition-colors">
             Find Now
@@ -276,7 +276,7 @@ const Home: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading amazing stories...</p>
         </div>
       </div>
@@ -431,7 +431,7 @@ const Home: React.FC = () => {
         </div>
       </section>      {/* Call to Action */}
       {!isAuthenticated && (
-        <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <section className="py-16 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Share Your Voice?

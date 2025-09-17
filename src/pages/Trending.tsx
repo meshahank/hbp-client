@@ -80,14 +80,14 @@ const TrendingPage: React.FC = () => {
     if (index === 0) return { icon: Award, color: 'text-yellow-500', bg: 'bg-yellow-50' };
     if (index === 1) return { icon: Star, color: 'text-gray-500', bg: 'bg-gray-50' };
     if (index === 2) return { icon: Star, color: 'text-orange-500', bg: 'bg-orange-50' };
-    return { icon: TrendingUp, color: 'text-indigo-500', bg: 'bg-indigo-50' };
+    return { icon: TrendingUp, color: 'text-primary-500', bg: 'bg-primary-50' };
   };
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading trending stories...</p>
         </div>
       </div>
@@ -229,7 +229,7 @@ const TrendingPage: React.FC = () => {
             {articles.slice(3).length > 0 && (
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                  <TrendingUp className="h-5 w-5 text-indigo-600 mr-2" />
+                  <TrendingUp className="h-5 w-5 text-primary-600 mr-2" />
                   More Trending Stories
                 </h3>
                 

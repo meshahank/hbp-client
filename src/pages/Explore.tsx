@@ -132,7 +132,7 @@ const ExplorePage: React.FC = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
             <Link 
               to={`/article/${article.id}`} 
-              className="hover:text-indigo-600 transition-colors duration-200"
+              className="hover:text-primary-600 transition-colors duration-200"
             >
               {article.title}
             </Link>
@@ -183,7 +183,7 @@ const ExplorePage: React.FC = () => {
             <h3 className="text-2xl font-semibold text-gray-900 mb-3">
               <Link 
                 to={`/article/${article.id}`} 
-                className="hover:text-indigo-600 transition-colors duration-200"
+                className="hover:text-primary-600 transition-colors duration-200"
               >
                 {article.title}
               </Link>
@@ -224,7 +224,7 @@ const ExplorePage: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading stories...</p>
         </div>
       </div>
@@ -253,7 +253,7 @@ const ExplorePage: React.FC = () => {
                 placeholder="Search stories, authors..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-gray-100 border-0 rounded-xl text-sm placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-indigo-500 transition-all duration-200"
+                className="w-full pl-10 pr-4 py-3 bg-gray-100 border-0 rounded-xl text-sm placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-primary-500 transition-all duration-200"
               />
             </div>
             
@@ -264,7 +264,7 @@ const ExplorePage: React.FC = () => {
                 <select
                   value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value as any)}
-                  className="appearance-none bg-white border border-gray-200 rounded-xl px-4 py-2.5 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="appearance-none bg-white border border-gray-200 rounded-xl px-4 py-2.5 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="all">All Stories</option>
                   <option value="published">Published</option>
@@ -278,7 +278,7 @@ const ExplorePage: React.FC = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="appearance-none bg-white border border-gray-200 rounded-xl px-4 py-2.5 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="appearance-none bg-white border border-gray-200 rounded-xl px-4 py-2.5 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="latest">Latest</option>
                   <option value="popular">Most Popular</option>
@@ -293,7 +293,7 @@ const ExplorePage: React.FC = () => {
                   onClick={() => setViewMode('grid')}
                   className={`p-2 rounded-lg transition-colors duration-200 ${
                     viewMode === 'grid'
-                      ? 'bg-white text-indigo-600 shadow-sm'
+                      ? 'bg-white text-primary-600 shadow-sm'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >
@@ -303,7 +303,7 @@ const ExplorePage: React.FC = () => {
                   onClick={() => setViewMode('list')}
                   className={`p-2 rounded-lg transition-colors duration-200 ${
                     viewMode === 'list'
-                      ? 'bg-white text-indigo-600 shadow-sm'
+                      ? 'bg-white text-primary-600 shadow-sm'
                       : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >

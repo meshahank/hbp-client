@@ -126,7 +126,7 @@ const CreateArticle: React.FC = () => {
               <div className="h-6 w-px bg-gray-200"></div>
               
               <div className="flex items-center space-x-2">
-                <PenTool className="h-5 w-5 text-indigo-600" />
+                <PenTool className="h-5 w-5 text-primary-600" />
                 <h1 className="text-lg font-semibold text-gray-900">Create New Story</h1>
               </div>
             </div>
@@ -137,7 +137,7 @@ const CreateArticle: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   {saveStatus === 'saving' && (
                     <>
-                      <div className="w-4 h-4 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
                       <span className="text-sm text-gray-600">Saving...</span>
                     </>
                   )}
@@ -159,7 +159,7 @@ const CreateArticle: React.FC = () => {
               {/* Preview Toggle */}
               <button
                 onClick={() => setPreviewMode(!previewMode)}
-                className={`btn btn-ghost ${previewMode ? 'bg-indigo-50 text-indigo-600' : ''}`}
+                className={`btn btn-ghost ${previewMode ? 'bg-primary-50 text-primary-600' : ''}`}
               >
                 <Eye className="h-4 w-4 mr-1" />
                 Preview
@@ -213,7 +213,7 @@ const CreateArticle: React.FC = () => {
                 {/* Title Input */}
                 <div className="card p-6">
                   <div className="flex items-center mb-4">
-                    <Type className="h-5 w-5 text-indigo-600 mr-2" />
+                    <Type className="h-5 w-5 text-primary-600 mr-2" />
                     <label className="text-lg font-semibold text-gray-900">
                       Story Title
                     </label>
@@ -240,7 +240,7 @@ const CreateArticle: React.FC = () => {
                 {/* Content Input */}
                 <div className="card p-6">
                   <div className="flex items-center mb-4">
-                    <PenTool className="h-5 w-5 text-indigo-600 mr-2" />
+                    <PenTool className="h-5 w-5 text-primary-600 mr-2" />
                     <label className="text-lg font-semibold text-gray-900">
                       Story Content
                     </label>
@@ -267,7 +267,7 @@ const CreateArticle: React.FC = () => {
                 {/* Excerpt Input */}
                 <div className="card p-6">
                   <div className="flex items-center mb-4">
-                    <FileText className="h-5 w-5 text-indigo-600 mr-2" />
+                    <FileText className="h-5 w-5 text-primary-600 mr-2" />
                     <label className="text-lg font-semibold text-gray-900">
                       Article Excerpt
                     </label>
@@ -277,7 +277,7 @@ const CreateArticle: React.FC = () => {
                     {...register('excerpt')}
                     placeholder="Write a brief summary or excerpt (optional)..."
                     rows={3}
-                    className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-400 resize-none"
+                    className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400 resize-none"
                   />
                 </div>
 
@@ -286,7 +286,7 @@ const CreateArticle: React.FC = () => {
                   {/* Category Input */}
                   <div className="card p-6">
                     <div className="flex items-center mb-4">
-                      <Type className="h-5 w-5 text-indigo-600 mr-2" />
+                      <Type className="h-5 w-5 text-primary-600 mr-2" />
                       <label className="text-lg font-semibold text-gray-900">
                         Category
                       </label>
@@ -296,14 +296,14 @@ const CreateArticle: React.FC = () => {
                       {...register('category')}
                       type="text"
                       placeholder="e.g., Technology, Lifestyle, Business..."
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-400"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400"
                     />
                   </div>
 
                   {/* Tags Input */}
                   <div className="card p-6">
                     <div className="flex items-center mb-4">
-                      <Type className="h-5 w-5 text-indigo-600 mr-2" />
+                      <Type className="h-5 w-5 text-primary-600 mr-2" />
                       <label className="text-lg font-semibold text-gray-900">
                         Tags
                       </label>
@@ -313,7 +313,7 @@ const CreateArticle: React.FC = () => {
                       {...register('tags')}
                       type="text"
                       placeholder="Separate tags with commas..."
-                      className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-gray-400"
+                      className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400"
                     />
                     <p className="mt-1 text-xs text-gray-500">
                       Enter tags separated by commas (e.g., react, javascript, web development)
@@ -360,22 +360,22 @@ const CreateArticle: React.FC = () => {
               
               <div className="space-y-3 text-sm text-gray-600">
                 <div className="flex items-start space-x-2">
-                  <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
                   <p>Start with a compelling hook to grab readers' attention</p>
                 </div>
                 
                 <div className="flex items-start space-x-2">
-                  <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
                   <p>Use descriptive language to paint vivid scenes</p>
                 </div>
                 
                 <div className="flex items-start space-x-2">
-                  <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
                   <p>Keep paragraphs short for better readability</p>
                 </div>
                 
                 <div className="flex items-start space-x-2">
-                  <div className="w-1.5 h-1.5 bg-indigo-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <div className="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"></div>
                   <p>End with a satisfying conclusion or cliffhanger</p>
                 </div>
               </div>
