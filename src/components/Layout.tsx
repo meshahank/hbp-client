@@ -56,7 +56,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <img src="/icon-lg.svg" alt="logo" className='w-5' />
+                <img src="/img/icon-lg.svg" alt="logo" className='w-5' />
                 <span className="text-xl font-semibold text-gray-900">InkSquare</span>
               </Link>
             </div>
@@ -257,7 +257,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-3 mb-4">
-                <img src="/icon-lg.svg" alt="" className='w-16'/>
+                <img src="/img/icon-lg.svg" alt="" className='w-16'/>
                 <div>
                   <h3 className="text-lg font-bold text-gradient">HBP Publishing</h3>
                   <p className="text-sm text-gray-500">Creative Writing Platform</p>
