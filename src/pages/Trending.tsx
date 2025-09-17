@@ -5,8 +5,6 @@ import {
   Flame, 
   Clock, 
   Heart, 
-  Eye, 
-  MessageCircle,
   User,
   Calendar,
   Award,

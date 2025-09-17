@@ -1,6 +1,9 @@
 import api from '../lib/api';
 import { Comment } from '../types';
 import { mockComments } from '../data/mockData';
+
+// Ensure mockComments is typed as Comment[]
+const typedMockComments: Comment[] = mockComments;
 import axios from 'axios';
 
 export const commentsService = {
@@ -32,7 +35,7 @@ export const commentsService = {
       // For any other unexpected error (e.g., 500 Internal Server Error, network timeout),
       // we log it and fall back to mock data to keep the UI from breaking.
       console.error('An unexpected error occurred fetching comments, using mock data:', error);
-      return mockComments.filter(comment => comment.articleId === articleId);
+  return typedMockComments.filter(comment => comment.articleId === articleId);
     }
   },
 

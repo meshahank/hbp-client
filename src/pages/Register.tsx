@@ -6,7 +6,7 @@ import { authService } from '../services/authService';
 import { RegisterData } from '../types';
 
 const Register: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<RegisterData>();
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterData>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { login } = useAuth();

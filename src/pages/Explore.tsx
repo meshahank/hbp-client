@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Search, 
-  Filter, 
   Grid, 
   List, 
   Heart, 
   BookOpen, 
   User, 
   Calendar, 
-  TrendingUp,
+  
   Clock,
   ChevronDown
 } from 'lucide-react';
