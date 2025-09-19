@@ -30,6 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -49,10 +50,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="border border-gray-200 m-3 w-auto rounded-2xl shadow-sm sticky top-3 z-50 mx-auto flex gap-10 px-4 py-0 items-center justify-center" 
-      style={{ backdropFilter: 'saturate(180%) blur(5px)', width: 'fit-content', borderRadius: '1.5rem' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 gap-20 flex">
+      <header className="border border-gray-200 m-3 w-auto rounded-2xl shadow-2xl sticky top-3 z-50 mx-auto flex gap-10 px-4 py-0 items-center justify-center"
+        style={{ backdropFilter: 'saturate(180%) blur(20px)', width: 'fit-content', borderRadius: '1.5rem' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="flex justify-between items-center h-16 gap-4 w-full">
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
@@ -72,7 +73,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             {/* Right Side Actions */}
             <div className="flex items-center space-x-4">
               {/* Desktop Search */}
-              <form 
+              <form
                 className="hidden md:block"
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -93,19 +94,27 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   />
                 </div>
               </form>
+              {/* Mobile Search Icon */}
+              <button
+                className="md:hidden p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                onClick={() => setShowMobileSearch((v) => !v)}
+                aria-label="Show search"
+              >
+                <Search className="h-5 w-5" />
+              </button>
               {isAuthenticated ? (
                 <>
-                  {/* Create Button */}
+                  {/* Create Button: icon only on mobile, text on desktop */}
                   <Link
                     to="/create"
-                    className="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
+                    className="bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors flex items-center justify-center px-2 py-2 md:px-4 md:py-2"
                   >
-                    <Plus className="h-4 w-4 mr-1 inline" />
-                    Create
+                    <Plus className="h-5 w-5 md:mr-1" />
+                    <span className="hidden md:inline">Create</span>
                   </Link>
 
-                  {/* User Menu */}
-                  <div className="relative">
+                  {/* User Menu: only on desktop, move all to mobile menu */}
+                  <div className="relative hidden md:block">
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                       className="flex items-center space-x-2 text-gray-700 hover:text-gray-900"
@@ -115,8 +124,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       </div>
                       <ChevronDown className="h-4 w-4" />
                     </button>
-
-                    {/* User Dropdown */}
                     {isUserMenuOpen && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                         <Link
@@ -126,7 +133,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         >
                           Profile
                         </Link>
-                        
                         <Link
                           to="/dashboard"
                           className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
@@ -135,7 +141,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                           <BookOpen className="h-4 w-4 mr-3" />
                           My Articles
                         </Link>
-
                         <Link
                           to="/settings"
                           className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
@@ -144,7 +149,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                           <Settings className="h-4 w-4 mr-3" />
                           Settings
                         </Link>
-
                         {isAdmin && (
                           <>
                             <div className="border-t border-gray-100 my-2"></div>
@@ -158,7 +162,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                             </Link>
                           </>
                         )}
-
                         <div className="border-t border-gray-100 my-2"></div>
                         <button
                           onClick={handleLogout}
@@ -188,60 +191,116 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
               )}
 
-              {/* Mobile Menu Button */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-              >
-                {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
+              {/* Mobile Menu Dropdown */}
+              <div className="relative lg:hidden">
+                <button
+                  onClick={() => setIsMobileMenuOpen((v) => !v)}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </button>
+                {isMobileMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 animate-fade-in-up">
+                    {navItems.map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                          isActivePath(item.path)
+                            ? 'text-primary-600 bg-primary-50'
+                            : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                        }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <item.icon className="h-4 w-4 mr-3" />
+                        {item.label}
+                      </Link>
+                    ))}
+                    {/* Authenticated user menu on mobile */}
+                    {isAuthenticated && (
+                      <>
+                        <div className="border-t border-gray-100 my-2"></div>
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Profile
+                        </Link>
+                        <Link
+                          to="/dashboard"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          My Articles
+                        </Link>
+                        <Link
+                          to="/settings"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          Settings
+                        </Link>
+                        {isAdmin && (
+                          <Link
+                            to="/admin"
+                            className="block px-4 py-2 text-sm text-purple-700 hover:bg-purple-50 rounded-lg"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            Admin Dashboard
+                          </Link>
+                        )}
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="block w-full px-4 py-2 text-sm text-red-700 hover:bg-red-50 rounded-lg text-left mt-2"
+                        >
+                          Sign Out
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-100 bg-white/95 backdrop-blur-lg">
-            <div className="px-4 py-4 space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
-                    isActivePath(item.path)
-                      ? 'text-primary-600 bg-primary-50'
-                      : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <item.icon className="h-4 w-4 mr-3" />
-                  {item.label}
-                </Link>
-              ))}
-              
-              {/* Mobile Search */}
-              <div className="pt-4">
-                <form onSubmit={(e) => {
-                  e.preventDefault();
-                  const formData = new FormData(e.target as HTMLFormElement);
-                  const query = formData.get('search') as string;
-                  if (query.trim()) {
-                    navigate(`/search?q=${encodeURIComponent(query)}`);
-                    setIsMobileMenuOpen(false);
-                  }
-                }}>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input
-                      type="text"
-                      name="search"
-                      placeholder="Search..."
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border-0 rounded-xl text-sm"
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
+        {/* Mobile Search Popout */}
+        {showMobileSearch && (
+          <div className="md:hidden fixed top-[4.5rem] left-0 w-full z-40 flex justify-center animate-fade-in-down">
+            <form
+              className="bg-white border border-gray-200 rounded-xl shadow-lg px-4 py-3 w-11/12 max-w-md flex items-center"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target as HTMLFormElement);
+                const query = formData.get('search') as string;
+                if (query.trim()) {
+                  navigate(`/search?q=${encodeURIComponent(query)}`);
+                  setShowMobileSearch(false);
+                }
+              }}
+            >
+              <Search className="h-5 w-5 text-gray-400 mr-2" />
+              <input
+                type="text"
+                name="search"
+                placeholder="Search..."
+                autoFocus
+                className="flex-1 bg-gray-100 border-0 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-primary-500 focus:bg-white transition-colors"
+              />
+              <button
+                type="button"
+                className="ml-2 p-1 text-gray-400 hover:text-gray-600"
+                onClick={() => setShowMobileSearch(false)}
+                aria-label="Close search"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </form>
           </div>
         )}
       </header>

@@ -32,8 +32,9 @@ const ExplorePage: React.FC = () => {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const data = await articlesService.getAllArticles();
-        const validArticles = Array.isArray(data) ? data : [...mockArticles];
+        const { articles: fetchedArticles } = await articlesService.getAllArticles();
+        console.log('Fetched articles from backend:', fetchedArticles);
+        const validArticles = Array.isArray(fetchedArticles) ? fetchedArticles : [...mockArticles];
         setArticles(validArticles);
         setFilteredArticles(validArticles);
       } catch (err) {
@@ -85,42 +86,49 @@ const ExplorePage: React.FC = () => {
   const handleLike = async (articleId: string) => {
     if (!isAuthenticated) return;
 
-    try {
-      setArticles(prev => prev.map(article => 
-        article.id === articleId 
-          ? { 
-              ...article, 
-              isLiked: !article.isLiked,
-              likes: article.isLiked ? article.likes - 1 : article.likes + 1
-            }
-          : article
-      ));
+    // Optimistically update UI
+    setArticles(prev => prev.map(article =>
+      article.id === articleId
+        ? {
+            ...article,
+            isLiked: !article.isLiked,
+            likes: article.isLiked ? article.likes - 1 : article.likes + 1
+          }
+        : article
+    ));
 
+    try {
       const article = articles.find(a => a.id === articleId);
       if (article?.isLiked) {
         await articlesService.unlikeArticle(articleId);
       } else {
         await articlesService.likeArticle(articleId);
       }
+      // Reload from backend to ensure state is correct
+      const { articles: fetchedArticles } = await articlesService.getAllArticles();
+      const validArticles = Array.isArray(fetchedArticles) ? fetchedArticles : [...mockArticles];
+      setArticles(validArticles);
+      setFilteredArticles(validArticles);
     } catch (err) {
       console.error('Error toggling like:', err);
     }
   };
 
   const ArticleGridView: React.FC<{ articles: Article[] }> = ({ articles }) => (
-    <div className="grid-responsive">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {articles.map((article) => (
-        <article key={article.id} className="card p-6 group hover:scale-[1.02] transition-all duration-300">
-          <div className="flex items-center justify-between mb-3">
-            <span className={`badge ${article.status === 'published' ? 'badge-success' : 'badge-warning'}`}>
-              {article.status}
-            </span>
+        <article
+          key={article.id}
+          className="bg-white rounded-2xl shadow-md flex flex-col items-stretch p-0 overflow-hidden group hover:scale-[1.03] transition-all duration-300 min-h-[320px] max-w-xs mx-auto"
+          style={{ width: '100%', maxWidth: '320px' }}
+        >
+          {/* Optional: Add an image or placeholder here for a more portrait look */}
+          <div className="flex items-center justify-between px-4 pt-4">
+            <span className={`badge ${article.status === 'published' ? 'badge-success' : 'badge-warning'}`}>{article.status}</span>
             <button
               onClick={() => handleLike(article.id)}
               className={`flex items-center space-x-1 px-2 py-1 rounded-lg transition-all duration-200 ${
-                article.isLiked
-                  ? 'text-red-600 bg-red-50'
-                  : 'text-gray-500 hover:text-red-600 hover:bg-red-50'
+                article.isLiked ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-red-600 hover:bg-red-50'
               }`}
               disabled={!isAuthenticated}
             >
@@ -128,27 +136,24 @@ const ExplorePage: React.FC = () => {
               <span className="text-sm font-medium">{article.likes}</span>
             </button>
           </div>
-          
-          <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
-            <Link 
-              to={`/article/${article.id}`} 
-              className="hover:text-primary-600 transition-colors duration-200"
-            >
-              {article.title}
-            </Link>
-          </h3>
-          
-          <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
-            {article.content.slice(0, 150)}...
-          </p>
-          
-          <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center text-gray-500 text-sm">
+          <div className="flex-1 flex flex-col px-4 pb-4">
+            <h3 className="text-lg font-semibold text-gray-900 mt-2 mb-2 line-clamp-2 min-h-[48px]">
+              <Link
+                to={`/article/${article.id}`}
+                className="hover:text-primary-600 transition-colors duration-200"
+              >
+                {article.title}
+              </Link>
+            </h3>
+            <p className="text-gray-600 mb-4 line-clamp-4 leading-relaxed text-sm min-h-[80px]">
+              {article.content.slice(0, 200)}...
+            </p>
+            <div className="mt-auto pt-2 border-t border-gray-100 flex items-center justify-between">
+              <div className="flex items-center text-gray-500 text-xs">
                 <User className="h-4 w-4 mr-1" />
                 {article.author.firstName} {article.author.lastName}
               </div>
-              <div className="flex items-center text-gray-500 text-sm">
+              <div className="flex items-center text-gray-500 text-xs">
                 <Clock className="h-4 w-4 mr-1" />
                 {format(new Date(article.createdAt), 'MMM d')}
               </div>

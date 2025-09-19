@@ -137,21 +137,38 @@ const Home: React.FC = () => {
 
   const handleLike = async (articleId: string) => {
     if (!isAuthenticated) return;
-    
-    // Ensure articles is an array before processing
-    const validArticles = ensureArticlesArray(articles);
-    
+
     try {
-      const article = validArticles.find(a => a.id === articleId);
+      setArticles(prev => prev.map(article =>
+        article.id === articleId
+          ? {
+              ...article,
+              isLiked: !article.isLiked,
+              likes: article.isLiked ? article.likes - 1 : article.likes + 1
+            }
+          : article
+      ));
+
+      const article = articles.find(a => a.id === articleId);
       if (article?.isLiked) {
         await articlesService.unlikeArticle(articleId);
       } else {
         await articlesService.likeArticle(articleId);
       }
-      // Reload articles to get updated like counts
+      // Optionally reload articles to get updated like counts
       loadArticles();
     } catch (err) {
       console.error('Error toggling like:', err);
+      // Revert optimistic update
+      setArticles(prev => prev.map(article =>
+        article.id === articleId
+          ? {
+              ...article,
+              isLiked: !article.isLiked,
+              likes: article.isLiked ? article.likes + 1 : article.likes - 1
+            }
+          : article
+      ));
     }
   };
 

@@ -26,9 +26,8 @@ const TrendingPage: React.FC = () => {
     const fetchTrendingArticles = async () => {
       try {
         setLoading(true);
-        const data = await articlesService.getAllArticles();
-        const validArticles = Array.isArray(data) ? data : [...mockArticles];
-        
+        const { articles: fetchedArticles } = await articlesService.getAllArticles();
+        const validArticles = Array.isArray(fetchedArticles) ? fetchedArticles : [...mockArticles];
         // Sort by trending metrics (likes for now, could be more sophisticated)
         const trendingArticles = validArticles
           .filter(article => article.status === 'published')
@@ -38,7 +37,6 @@ const TrendingPage: React.FC = () => {
             const bScore = b.likes + (new Date().getTime() - new Date(b.createdAt).getTime()) / 86400000;
             return bScore - aScore;
           });
-        
         setArticles(trendingArticles);
       } catch (err) {
         console.error('Error fetching trending articles:', err);
@@ -47,7 +45,6 @@ const TrendingPage: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchTrendingArticles();
   }, [timeFrame]);
 
@@ -73,6 +70,16 @@ const TrendingPage: React.FC = () => {
       }
     } catch (err) {
       console.error('Error toggling like:', err);
+      // Revert optimistic update
+      setArticles(prev => prev.map(article => 
+        article.id === articleId 
+          ? { 
+              ...article, 
+              isLiked: !article.isLiked,
+              likes: article.isLiked ? article.likes + 1 : article.likes - 1
+            }
+          : article
+      ));
     }
   };
 
@@ -95,26 +102,24 @@ const TrendingPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="text-center">
-            <div className="flex items-center justify-center mb-4">
-              <Flame className="h-8 w-8 mr-3" />
-              <h1 className="text-4xl font-bold">Trending Stories</h1>
-            </div>
-            <p className="text-xl text-red-100 max-w-3xl mx-auto">
-              Discover the hottest stories that are capturing readers' attention right now
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-white/80 to-orange-100/60 backdrop-blur-2xl">
+      <div className="sticky top-16 z-40 w-full px-4 py-6 flex justify-center">
+        <div className="backdrop-blur-xl flex items-center gap-3 bg-white/60 rounded-2xl shadow-lg px-6 py-4 text-center border border-gray-200">
+          <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+            <Flame className="h-6 w-6 text-red-500" />
+          </div>
+          <div className="flex flex-col items-start justify-center">
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight m-0">Trending Stories</h1>
+            <p className="text-sm text-gray-600">Discover the hottest stories that are capturing readers' attention right now</p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Time Filter */}
         <div className="flex items-center justify-center mb-8">
-          <div className="bg-white rounded-xl p-1 shadow-sm border border-gray-200">
+          <div className="backdrop-blur-xl bg-white/70 border border-white/30 rounded-xl p-1 shadow-sm flex">
             {[
               { key: 'today', label: 'Today' },
               { key: 'week', label: 'This Week' },
@@ -138,83 +143,60 @@ const TrendingPage: React.FC = () => {
 
         {/* Trending Articles */}
         {articles.length > 0 ? (
-          <div className="space-y-6">
+          <div className="space-y-8 flex flex-col items-center justify-center">
             {/* Top 3 Featured */}
             {articles.slice(0, 3).map((article, index) => {
               const rank = getTrendingRank(index);
               const RankIcon = rank.icon;
-              
               return (
-                <div key={article.id} className="card card-elevated overflow-hidden">
-                  <div className="flex">
+                <div key={article.id} className="w-full overflow-hidden rounded-3xl shadow-xl border border-white/30 backdrop-blur-xl bg-white/70">
+                  <div className="flex flex-col md:flex-row">
                     {/* Rank Indicator */}
-                    <div className={`flex items-center justify-center w-16 ${rank.bg}`}>
-                      <div className="text-center">
-                        <RankIcon className={`h-6 w-6 ${rank.color} mx-auto mb-1`} />
-                        <span className="text-lg font-bold text-gray-900">#{index + 1}</span>
+                    <div className={`flex items-center justify-center w-full md:w-16 ${rank.bg} md:rounded-l-2xl md:rounded-r-none rounded-t-2xl md:rounded-t-none`}> 
+                      <div className="text-center py-2">
+                        <RankIcon className={`h-5 w-5 ${rank.color} mx-auto mb-1`} />
+                        <span className="text-sm font-semibold text-gray-900">#{index + 1}</span>
                       </div>
                     </div>
-                    
                     {/* Content */}
-                    <div className="flex-1 p-6">
-                      <div className="flex items-start justify-between">
+                    <div className="flex-1 p-3">
+                      <div className="flex items-start justify-between flex-col md:flex-row">
                         <div className="flex-1">
-                          <div className="flex items-center mb-3">
-                            <span className="badge badge-error">
-                              <Flame className="h-3 w-3 mr-1" />
+                          <div className="flex items-center mb-2">
+                            <span className="badge badge-error text-xs px-2 py-0.5">
+                              <Flame className="h-2.5 w-2.5 mr-1 text-red-600" />
                               Trending
                             </span>
-                            <div className="flex items-center ml-4 text-sm text-gray-500">
-                              <TrendingUp className="h-4 w-4 mr-1" />
+                            <div className="flex items-center ml-3 text-xs text-gray-500">
+                              <TrendingUp className="h-3 w-3 mr-1" />
                               {article.likes} reactions
                             </div>
                           </div>
-                          
-                          <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                            <Link 
-                              to={`/article/${article.id}`}
-                              className="hover:text-red-600 transition-colors duration-200"
-                            >
+                          <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                            <Link to={`/article/${article.id}`} className="hover:text-red-600 transition-colors duration-200">
                               {article.title}
                             </Link>
                           </h2>
-                          
-                          <p className="text-gray-600 mb-4 leading-relaxed">
-                            {article.content.slice(0, 200)}...
+                          <p className="text-gray-600 mb-1 text-sm leading-snug">
+                            {article.content.slice(0, 120)}...
                           </p>
-                          
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                              <div className="flex items-center text-gray-500 text-sm">
-                                <User className="h-4 w-4 mr-1" />
+                          <div className="flex items-center justify-between flex-col md:flex-row gap-3">
+                            <div className="flex items-center space-x-3">
+                              <div className="flex items-center text-gray-500 text-xs">
+                                <User className="h-3.5 w-3.5 mr-1" />
                                 {article.author.firstName} {article.author.lastName}
                               </div>
-                              <div className="flex items-center text-gray-500 text-sm">
-                                <Calendar className="h-4 w-4 mr-1" />
+                              <div className="flex items-center text-gray-500 text-xs">
+                                <Calendar className="h-3.5 w-3.5 mr-1" />
                                 {format(new Date(article.createdAt), 'MMM d, yyyy')}
                               </div>
                             </div>
-                            
-                            <div className="flex items-center space-x-4">
-                              <button
-                                onClick={() => handleLike(article.id)}
-                                className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg transition-all duration-200 ${
-                                  article.isLiked
-                                    ? 'text-red-600 bg-red-50'
-                                    : 'text-gray-500 hover:text-red-600 hover:bg-red-50'
-                                }`}
-                                disabled={!isAuthenticated}
-                              >
-                                <Heart className={`h-4 w-4 ${article.isLiked ? 'fill-current' : ''}`} />
-                                <span className="text-sm font-medium">{article.likes}</span>
+                            <div className="flex items-center space-x-3">
+                              <button onClick={() => handleLike(article.id)} className={`flex items-center space-x-1 px-2.5 py-1 rounded-md transition-all duration-200 ${article.isLiked ? 'text-red-600 bg-red-50' : 'text-gray-500 hover:text-red-600 hover:bg-red-50'}`} disabled={!isAuthenticated}>
+                                <Heart className={`h-3.5 w-3.5 ${article.isLiked ? 'fill-current' : ''}`} />
+                                <span className="text-xs font-medium">{article.likes}</span>
                               </button>
-                              
-                              <Link
-                                to={`/article/${article.id}`}
-                                className="btn btn-secondary btn-sm"
-                              >
-                                Read Story
-                              </Link>
+                              <Link to={`/article/${article.id}`} className="rounded-pill px-4 py-2 border border-grey-200 rounded-full shadow-lg">Read</Link>
                             </div>
                           </div>
                         </div>
@@ -224,7 +206,6 @@ const TrendingPage: React.FC = () => {
                 </div>
               );
             })}
-
             {/* Rest of the articles */}
             {articles.slice(3).length > 0 && (
               <div>
@@ -232,10 +213,9 @@ const TrendingPage: React.FC = () => {
                   <TrendingUp className="h-5 w-5 text-primary-600 mr-2" />
                   More Trending Stories
                 </h3>
-                
-                <div className="grid-responsive">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {articles.slice(3).map((article, index) => (
-                    <article key={article.id} className="card p-6 group hover:scale-[1.02] transition-all duration-300">
+                    <article key={article.id} className="backdrop-blur-xl bg-white/70 border border-white/30 rounded-2xl shadow-lg p-6 group hover:scale-[1.02] transition-all duration-300">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center">
                           <span className="text-lg font-bold text-gray-400 mr-2">
@@ -246,7 +226,6 @@ const TrendingPage: React.FC = () => {
                             Rising
                           </span>
                         </div>
-                        
                         <button
                           onClick={() => handleLike(article.id)}
                           className={`flex items-center space-x-1 px-2 py-1 rounded-lg transition-all duration-200 ${
@@ -260,7 +239,6 @@ const TrendingPage: React.FC = () => {
                           <span className="text-sm font-medium">{article.likes}</span>
                         </button>
                       </div>
-                      
                       <h3 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
                         <Link 
                           to={`/article/${article.id}`} 
@@ -269,11 +247,9 @@ const TrendingPage: React.FC = () => {
                           {article.title}
                         </Link>
                       </h3>
-                      
                       <p className="text-gray-600 mb-4 line-clamp-3 leading-relaxed">
                         {article.content.slice(0, 120)}...
                       </p>
-                      
                       <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                         <div className="flex items-center space-x-3">
                           <div className="flex items-center text-gray-500 text-sm">

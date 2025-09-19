@@ -5,6 +5,7 @@ import {
   User, 
   Edit, 
   Trash2, 
+  Search,
   BookOpen
 } from 'lucide-react';
 import { Article } from '../types';
@@ -61,7 +62,8 @@ const HeroSection: React.FC = () => {
             className="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
           <button type="submit" className="px-6 py-3 bg-primary-600 text-white rounded-r-lg hover:bg-primary-700 transition-colors">
-            Find Now
+            <Search className="block md:hidden h-7 w-7 text-grey-400" />
+            <span className="hidden md:block">Find Now</span>
           </button>
         </form>
       </div>
@@ -98,7 +100,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   };
   return (
     <article
-      className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group cursor-pointer"
+      className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group cursor-pointer"
       onClick={handleCardClick}
       tabIndex={0}
       onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') navigate(`/article/${article.id}`); }}
@@ -224,35 +226,29 @@ const Home: React.FC = () => {
       return;
     }
 
-    try {
-      setArticles(prev => prev.map(article => 
-        article.id === articleId 
-          ? { 
-              ...article, 
-              isLiked: !article.isLiked,
-              likes: article.isLiked ? article.likes - 1 : article.likes + 1
-            }
-          : article
-      ));
+    // Optimistically update UI
+    setArticles(prev => prev.map(article =>
+      article.id === articleId
+        ? {
+            ...article,
+            isLiked: !article.isLiked,
+            likes: article.isLiked ? article.likes - 1 : article.likes + 1
+          }
+        : article
+    ));
 
+    try {
       const article = articles.find(a => a.id === articleId);
       if (article?.isLiked) {
         await articlesService.unlikeArticle(articleId);
       } else {
         await articlesService.likeArticle(articleId);
       }
+      // Always reload articles to get correct like state from backend
+      const { articles: fetchedArticles } = await articlesService.getAllArticles();
+      setArticles(Array.isArray(fetchedArticles) ? fetchedArticles : []);
     } catch (err) {
       console.error('Error toggling like:', err);
-      // Revert optimistic update
-      setArticles(prev => prev.map(article => 
-        article.id === articleId 
-          ? { 
-              ...article, 
-              isLiked: !article.isLiked,
-              likes: article.isLiked ? article.likes + 1 : article.likes - 1
-            }
-          : article
-      ));
     }
   };
 
